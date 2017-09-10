@@ -3,23 +3,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Welcome extends CI_Controller {
 
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see https://codeigniter.com/user_guide/general/urls.html
-	 */
+    public function __construct()
+    {
+        parent::__construct();
+        $this->load->library(array('ion_auth','form_validation','blade','session', 'encryption'));
+        $this->load->helper(array('url','language','cookie','active'));
+        $this->load->model('Users_model');
+        $this->encryption->initialize(
+            array(
+                'cipher' => 'aes-128',
+                'mode' => 'cbc',
+                'key' => '2EEA0A6A937F4F5436B89D31D325CC76'
+            )
+        );
+        if($this->ion_auth->logged_in() == false) {
+            redirect('/login');
+        }
+    }
 	public function index()
 	{
-		$this->load->view('welcome_message');
+        $user = $this->Users_model->get($this->session->username);
+        $data['user'] = $user;
+		$this->blade->render('welcome/index', $data);
 	}
 }

@@ -49,6 +49,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-$route['default_controller'] = 'welcome';
-$route['404_override'] = '';
-$route['translate_uri_dashes'] = FALSE;
+        $route['404_override'] = 'Error404';
+        $route['translate_uri_dashes'] = FALSE;
+        $route['default_controller'] = 'welcome';
+        $route['user/(:any)'] = 'users/index/$1';
+        $route['users/(:any)/profile'] = 'users/index/$1/profile';
+        $route['admin/(:any)/(:any)'] = 'admin/$1/$2';
+        $route['register'] = 'auth/register';
+        $route['login'] = 'auth/login';
+        $route['logout'] = 'auth/logout';
+        $route['game/csgo/queue'] = 'game/queue/csgo';
+        $route['lobby/banmap'] = 'lobby/banmap';
+        $route['lobby/curltest'] = 'lobby/curltest';
+        $route['lobby/getserver'] = 'lobby/getserver';
+        $route['lobby/test'] = 'lobby/test';
+        $route['lobby/goinglive'] = 'lobby/goinglive';
+        $route['lobby/(:any)'] = 'lobby/index/$1';
