@@ -145,5 +145,39 @@ class Api extends CI_Controller
 
     }
 
+    public function messages(){
+        $data = $this->security->xss_clean($_GET);
+        $messages = $this->api_model->getMessages($data);
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($messages, JSON_NUMERIC_CHECK));
+    }
+    public function newmessage(){
+        $query = $this->api_model->addMessage($this->input->post());
+        $user = $this->api_model->getUserData($this->input->post('receiver'));
+        $array['post'] = $this->security->xss_clean($this->input->post());
+        print_r($this->input->post());
+        $stringToMD = $user->id;
+        $stringToMD .= $user->username;
+        $stringToMD .= $user->created_on;
+        $stringToMD .= $user->first_name;
+        $stringToMD .= $user->username;
+        $stringToMD .= $user->last_name;
+        $stringToMD .= $user->id;
+        $stringToMD .= $user->email;
+        $stringToMD .= $user->id;
+        $array['room'] = md5($stringToMD);
+        $array['room'] = substr($array['room'], 0, ($user->id * 8) % 32);
+        try {
+            $this->elephant->initialize();
+            $this->elephant->emit('new_message', $array);
+            $this->elephant->close();
+        } catch (ElephantIO\Exception\ServerConnectionFailureException $e) {
+            echo $e->getMessage();
+        }
+//        $this->output
+//            ->set_content_type('application/json')
+//            ->set_output(json_encode($this->input->post(), JSON_NUMERIC_CHECK));
+    }
 }
 

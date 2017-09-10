@@ -3599,7 +3599,7 @@ ul.common li a:hover {
     border-radius: 0px 8px 8px 8px;
     display: inline-block;
     padding: 15px;
-    font-size: 14px;
+    font-size: 12px;
     position: relative;
 }
 
@@ -21026,8 +21026,8 @@ li.L1,li.L3,li.L5,li.L7,li.L9 { }
     position: absolute;
     right: 300px;
     width: 300px;
-    bottom: 0;
-    z-index: 9999;
+    bottom: 5px;
+    z-index: 9996;
 }
 .chat-header {
     font-size: 12px !important;
@@ -21035,10 +21035,10 @@ li.L1,li.L3,li.L5,li.L7,li.L9 { }
     cursor: pointer;
 }
 .chat-footer {
-    padding-top: 10px !important;
+    padding-top: 0 !important;
     padding-right: 25px !important;
     padding-left: 10px !important;
-    padding-bottom: 10px !important;
+    padding-bottom: 2px !important;
 
 }
 .chat-box-input {
@@ -21048,7 +21048,7 @@ li.L1,li.L3,li.L5,li.L7,li.L9 { }
     padding: 0 !important;
 }
 .chat-body {
-    width: 78% !important;
+    width: 70% !important;
 }
 .chat-image {
     width: 32px !important;
@@ -21067,3 +21067,16 @@ li.L1,li.L3,li.L5,li.L7,li.L9 { }
     background-color: #f7f7f7 !important;
     padding: 8px !important;
 }
+.no-messages {
+    font-weight: 400;
+    font-size: 12px !important;
+}
+.messages {
+    overflow-x: hidden;overflow-y: auto; width: auto; height: 100%;
+
+}
+.chat-list .chat-text {
+    fonst-size: 12px !important;
+    word-wrap: break-word;
+}
+p { word-break: break-all }

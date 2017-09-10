@@ -3,6 +3,8 @@ moment.locale('pl');
 var confirmSound = new Audio("/public/sounds/match-ready.mp3");
 var done = new Audio("/public/sounds/job-done.mp3");
 var timer = new Audio("/public/sounds/timer.mp3");
+var msgSound = new Audio("/public/sounds/ping.mp3");
+msgSound.volume = 0.1;
 confirmSound.volume = 0.04;
 done.volume = timer.volume = 0.3;
 confirmSound.loop = false;
@@ -216,7 +218,9 @@ $("#FileUpload").change(function () {
         reconnectionDelayMax : 500,
         reconnectionAttempts: 99999
     });
-    var rm = $.md5(user.id + user.username + user.created_on + user.firstname + user.username + user.lastname + user.id + user.email + user.id).substring(0, ( user.id * 8 ) % 32);
+    // var rm = $.md5(user.id + user.username + user.created_on + user.firstname + user.username + user.lastname + user.id + user.email + user.id);
+    var rm = $.md5(user.id + user.username + user.created_on + user.first_name + user.username + user.last_name + user.id + user.email + user.id).substring(0,(user.id * 8) % 32);
+    //     var rm = user.username + user.created_on + "_" + user.id + "room";
     socket.emit('room', rm);
 
     socket.on('reconnect_attempt', () => {});
@@ -314,28 +318,70 @@ $("#FileUpload").change(function () {
                       var nRstring = newRight+"px";
                      $(v).css('right', nRstring);
                     });
-                    $("#rightSidebar").prepend('<div class="chatboxWrapper" id="chat_' + fr.username + '"><div class="panel panel-themecolor"><div class="panel-heading chat-header"> <span class="friendName">' + fr.first_name + ' ' + fr.last_name + '</span><div class="pull-right"> <a href="#" data-perform="panel-dismiss" data-wrapname="chat_'+fr.username+'" class="closePanel"><i class="ti-close"></i></a> </div></div> <div class="panel-wrapper collapse in" aria-expanded="true"> <div class="panel-body chat-body-kfse"> <div class="chat-box" style="height: 260px"> <ul class="chat-list slimscroll" style="overflow: hidden; overflow-y: scroll;" tabindex="5005"> </ul> </div> </div> <div class="panel-footer chat-footer"> <div class="row"> <div class="col-xs-10"> <textarea placeholder="Wpisz wiadomość..." class="chat-box-input" tabindex="' + openedConvCount + '"  style="overflow: hidden;"></textarea> </div> <div class="col-xs-2 text-right"> <button class="btn btn-success btn-circle btn-sm" type="button"><i class="icon-paper-plane"></i></button> </div> </div> </div> </div> </div>');
+                    var msgs = $.get('http://localhost/api/messages/?username='+user.username+'&friendname='+fr.username, (m) => {msgs = m}).done(()=>{
+                        $("#rightSidebar").prepend('<div class="chatboxWrapper" id="chat_' + fr.username + '"><div class="panel panel-themecolor"><div class="panel-heading chat-header"> <span class="friendName">' + fr.first_name + ' ' + fr.last_name + '</span><div class="pull-right"> <a href="#" data-perform="panel-dismiss" data-wrapname="chat_'+fr.username+'" class="closePanel"><i class="ti-close"></i></a> </div></div> <div class="panel-wrapper collapse in" aria-expanded="true"> <div class="panel-body chat-body-kfse"> <div class="chat-box" style="height: 260px"> <ul id="msgs_'+fr.username+'" class="chat-list slimscroll messages"  tabindex="5005"> </ul> </div> </div> <div class="panel-footer chat-footer"> <div class="row"> <div class="col-xs-10"> <textarea placeholder="Wpisz wiadomość..." class="chat-box-input" id="input_'+fr.username+'" tabindex="' + openedConvCount + '"  style="overflow: hidden;"></textarea> </div> <div class="col-xs-2 text-right"> <button class="btn btn-success btn-circle btn-sm" type="button"><i class="icon-paper-plane"></i></button> </div> </div> </div> </div> </div>');
+                        $("#input_"+fr.username).focus();
+                        if(msgs.length > 0){
+                            $.each(msgs, (k,message)=>{
+                               if(user.username == message.from_username){
+                                   $("#msgs_" + fr.username).append("<li class='odd'><div class='chat-body'><div class='chat-text'><p>" + message.message + "</p></div></div></li>");
+                               }else{
+                                   $("#msgs_" + fr.username).append("<li><div class='chat-image'><img alt='' src='"+fr.photo+"'></div><div class='chat-body'><div class='chat-text'><p>" + message.message + "</p></div></div></li>");
+
+                               }
+                            });
+                            $("#msgs_" + fr.username).animate({scrollTop: $("#msgs_" + fr.username).prop("scrollHeight")}, 50);
+                        }else{
+                            $("#msgs_"+fr.username).append('<li class="first-message"><div class="chat-text no-messages">Brak wiadomości do wyświetlenia, napisz coś aby rozpocząć rozmowę!</div></li>')
+                        }
+                    });
+                    $(function(){
+                        var inputid = "#input_"+fr.username;
+                        var msgsid = "#msgs_"+fr.username;
+
+                        $(document).delegate(inputid,'keypress',function (e) {
+                            if(e.which == 13) {
+                                if($(this).val().length > 1) {
+                                    socket.emit('send_message',{sender : user.username, receiver : fr.username, message : $(this).val()})
+                                    $("#msgs_" + fr.username).append("<li class='odd'><div class='chat-body'><div class='chat-text'><p>" + $(this).val() + "</p></div></div></li>");
+                                }
+                                $(this).val("");
+                                e.preventDefault();
+                                $(msgsid).animate({scrollTop: $(msgsid).prop("scrollHeight")}, 50);
+                            }
+                        });
+                    })
+
                 }})
         });
+
+        socket.on('message_received', (msg) => {
+            msgSound.play();
+        });
+
         $(document).delegate('.closePanel','click',function () {
             $("#"+ $(this).data('wrapname')).remove();
             openedConvCount--;
             $.each($('.chatboxWrapper'), (k,v) => {
                 var actRight =  $(v).css('right');
                 actRight = parseInt(actRight.split('px')[0]);
-                var newRight = actRight - 310;
-                var nRstring = newRight+"px";
-                $(v).css('right', nRstring);
+                if(actRight > 300) {
+                    var newRight = actRight - 310;
+                    var nRstring = newRight + "px";
+                    $(v).css('right', nRstring);
+                }
             });
         })
-        $('.slimscroll').scrollTop($('.slimscroll')[0].scrollHeight);
-        $('.chat-header').on('click',function(){
-           var wrapper = $(this).parent().children('.panel-wrapper');
-           if(wrapper.hasClass('in')){
-               wrapper.removeClass('in').addClass('out');
-           }else{
-               wrapper.removeClass('out').addClass('in');
-           }
+        $(document).delegate('.chat-header','click',function(){
+            console.log($(this));
+            var wrapper = $(this).parent().children('.panel-wrapper');
+            if(wrapper.hasClass('in')){
+                wrapper.removeClass('in').addClass('out');
+            }else{
+                wrapper.removeClass('out').addClass('in');
+            }
         });
+
+
     });
 
