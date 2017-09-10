@@ -92,4 +92,18 @@ class Api_model extends CI_Model {
         $friends = $this->db->where("username_1 ='".$username."' OR username_2 ='".$username."'")->get('friendships')->result();
         return $friends;
     }
+    public function addMessage($post){
+        $data = [
+            'from_username' => $post['sender'],
+            'to_username' => $post['receiver'],
+            'message' => $post['message'],
+            'send_at' => time()
+        ];
+        $this->db->insert('conversations',$data);
+        $str = $this->db->insert_string('conversations', $data);
+        return $str;
+    }
+    public function getMessages($get){
+        return $this->db->where("(`from_username` = \"".$get['username']."\" AND `to_username` = \"".$get['friendname']."\") OR (`from_username` = \"".$get['friendname']."\" AND `to_username` = \"".$get['username']."\")")->get('conversations')->result();
+    }
 }

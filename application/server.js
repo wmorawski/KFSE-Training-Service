@@ -124,6 +124,24 @@ io.on('connection', function(socket){
     socket.on('play_click', function(p){
         io.sockets.in(p.user).emit('queue_start', { 'status' : 'success'});
     });
+    socket.on('send_message',(msg) => {
+        var querystring = require("querystring");
+        var qs = querystring.stringify(msg);
+        var qslength = qs.length;
+        var request = require('request');
+        console.log(qs);
+        request.post({
+            headers: {'content-type' : 'application/x-www-form-urlencoded'},
+            url:     'http://localhost/api/newmessage',
+            body:    qs
+        }, function(error, response, body){
+            console.log(body);
+        });
+    });
+    socket.on('new_message',(msg)=>{
+        io.sockets.in(msg.room).emit('message_received',msg.post);
+
+    })
     socket.on('get_items', function(g){
         // api.getSteamInventory(opts, (err, items) => {
         //     if(err){
