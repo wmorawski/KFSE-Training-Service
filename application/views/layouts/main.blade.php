@@ -179,8 +179,8 @@
             <div class="sidebar-head">
                 <h3><span class="fa-fw open-close"><i class="ti-menu hidden-xs"></i><i class="ti-close visible-xs"></i></span> <span class="hide-menu">Nawigacja</span></h3> </div>
             <ul class="nav" id="side-menu">
-                <li><a href="javascript:void(0)" class="waves-effect active"><i data-icon="7" class="icon-home fa-fw"></i><span class="hide-menu">Strona domowa </span></a> </li>
-                <li><a href="javascript:void(0)" class="waves-effect"><i data-icon="7" class="icon-graph fa-fw"></i><span class="hide-menu">Statystyki </span></a> </li>
+                <li><a href="{{base_url('/')}}" class="waves-effect {{set_active('welcome')}}"><i data-icon="7" class="icon-home fa-fw"></i><span class="hide-menu">Strona domowa </span></a> </li>
+                <li><a href="{{base_url('stats/')}}" class="waves-effect {{set_active("stats")}}"><i data-icon="7" class="icon-graph fa-fw"></i><span class="hide-menu">Statystyki </span></a> </li>
                 <li> <a href="javascript:void(0)" class="waves-effect"><i data-icon="7" class="icon-organization fa-fw"></i><span class="hide-menu">Treningi</span></a></li>
                 <li> <a href="javascript:void(0)" class="waves-effect"><i data-icon="7" class="icon-game-controller fa-fw"></i><span class="hide-menu">Mecze</span></a></li>
                 <li> <a href="javascript:void(0)" class="waves-effect"><i data-icon="7" class="icon-location-pin fa-fw"></i><span class="hide-menu">Spotkania</span></a></li>
