@@ -128,6 +128,12 @@ class Api extends CI_Controller
             ->set_output(json_encode($this->response, JSON_NUMERIC_CHECK));
     }
 
+    public function getFriends($username){
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($this->api_model->getFriends($username), JSON_NUMERIC_CHECK));
+    }
+
     public function isPlayerInActiveLobby()
     {
         $response = FALSE;
