@@ -75,10 +75,10 @@ $query_builder = TRUE;
 
 $db['default'] = array(
 	'dsn'	=> '',
-	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => '',
-	'database' => 'kfse',
+	'hostname' => 'sql.blackleo.nazwa.pl',
+	'username' => 'blackleo_RATTEN',
+	'password' => 'Ratten2017',
+	'database' => 'blackleo_RATTEN',
 	'dbdriver' => 'mysqli',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
