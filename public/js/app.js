@@ -1,5 +1,8 @@
 moment().format();
 moment.locale('pl');
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+});
 var confirmSound = new Audio("/public/sounds/match-ready.mp3");
 var done = new Audio("/public/sounds/job-done.mp3");
 var timer = new Audio("/public/sounds/timer.mp3");
@@ -210,6 +213,14 @@ $("#FileUpload").change(function () {
     var user = $.get('/api/user/', function (u) {
     user = u.user;
 }, 'json').done(function (d) {
+    let rooms = new Array();
+    function join_room(roomname){
+        socket.emit('room',roomname);
+        rooms.push(roomname);
+    };
+    function rejoin_room(roomname){
+      socket.emit('room', roomname);
+    };
     var timestamp = Math.round(+new Date() / 1000);
     var admin = user.admin;
     var socket = io.connect('//localhost:3000', {
@@ -221,7 +232,7 @@ $("#FileUpload").change(function () {
     // var rm = $.md5(user.id + user.username + user.created_on + user.firstname + user.username + user.lastname + user.id + user.email + user.id);
     var rm = $.md5(user.id + user.username + user.created_on + user.first_name + user.username + user.last_name + user.id + user.email + user.id).substring(0,(user.id * 8) % 32);
     //     var rm = user.username + user.created_on + "_" + user.id + "room";
-    socket.emit('room', rm);
+    join_room(rm);
 
     socket.on('reconnect_attempt', () => {});
     socket.on('reconnecting', () => {
@@ -229,6 +240,9 @@ $("#FileUpload").change(function () {
         $('body').prepend('<div id="overlay"></div>').append('<div id="reconnecting_alert" class="myadmin-alert myadmin-alert-icon myadmin-alert-click alert-danger myadmin-alert-top alerttop animated fadeIn" style="display: block; z-index: 9999;"> <i class="icon-close"></i> Utracono połączenie, próba ponownego połączenia...</div>');
     }});
     socket.on('reconnect', () => {
+        $.each(rooms, function(k,v){
+            rejoin_room(v);
+        });
         $("#reconnecting_alert").fadeOut().remove();
         $('body').append('<div id="reconnected_alert" class="myadmin-alert myadmin-alert-icon myadmin-alert-click alert-success myadmin-alert-top alerttop animated fadeIn" style="display: block; z-index: 9999;"> <i class="icon-check"></i> Połączono</div>');
         setTimeout(function(){
@@ -249,28 +263,28 @@ $("#FileUpload").change(function () {
         console.log(reason);
         socket.emit('user_disconnected', {username : user.username});
     })
-    user.friends.sort(function(a, b) {
-        return a.last_online - b.last_online;
-    });
+        user.friends.sort(function(a, b) {
+            return b.last_online - a.last_online;
+        });
     $.each(user.friends, function (k, friend) {
         var friendName = findFriendName(user.username,friend);
-        const url = 'http://localhost/api/user/' + friendName;
-        socket.emit('room', friendName+"_friend");
+        const url = 'http://localhost/api/getFriends/' + friendName;
+        join_room(friendName+"_friend");
         setIntervalAndExecute(() => {
-            var fr = $.get(url, function(f){
-                fr = f.user;
+            $.get(url, function(f){
+                user.friends = f;
             }).done(function(){
-                var lo =  Math.round(+new Date() / 1000) - fr.last_online;
-                if($("#fr_" + fr.username).length == 0) {
+                var lo =  Math.round(+new Date() / 1000) - friend.last_online;
+                if($("#fr_" + friend.username).length == 0) {
                     $(".chatonline")
-                        .append($('<li id="fr_' + fr.username + '">')
-                            .append('<a href="javascript:void(0)"  id="'+fr.username+'_conv" data-action="open_conv" data-friendname="'+fr.username+'"><img src="' + fr.photo + '" alt="user-img" class="img-circle"> <span>' + fr.first_name + ' ' + fr.last_name + ' <small class="' + (lo <= 60 ? 'text-success' : 'text-muted') + '" id="fr_' + fr.username + '_status">' + (lo <= 60 ? 'Online' : 'Offline • ' + moment(fr.last_online, "X").fromNow()) + '</small></span></a>')
+                        .append($('<li id="fr_' + friend.username + '">')
+                            .append('<a href="javascript:void(0)"  id="'+friend.username+'_conv" data-action="open_conv" data-friendname="'+friend.username+'"><img src="' + friend.photo + '" alt="user-img" class="img-circle"> <span>' + friend.first_name + ' ' + friend.last_name + ' <small class="' + (lo <= 60 ? 'text-success' : 'text-muted') + '" id="fr_' + friend.username + '_status">' + (lo <= 60 ? 'Online' : 'Offline • ' + moment(friend.last_online, "X").fromNow()) + '</small></span></a>')
                         );
                 }else{
                     if(lo <= 60){
-                        $("#fr_" + fr.username + "_status").removeClass('text-muted').addClass('text-success').html('Online');
+                        $("#fr_" + friend.username + "_status").removeClass('text-muted').addClass('text-success').html('Online');
                     }else{
-                        $("#fr_" + fr.username + "_status").removeClass('text-success').addClass('text-muted').html('Offline • ' + moment(fr.last_online, "X").fromNow());
+                        $("#fr_" + friend.username + "_status").removeClass('text-success').addClass('text-muted').html('Offline • ' + moment(friend.last_online, "X").fromNow());
                     }
                 }
             });
@@ -306,6 +320,15 @@ $("#FileUpload").change(function () {
     }
         var openedConvCount = 0;
         $(document).delegate('a[data-action="open_conv"]', 'click', function(){
+            function makeid() {
+                var text = "";
+                var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+                for (var i = 0; i < 5; i++)
+                    text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+                return text;
+            }
             var friendName = $(this).data('friendname');
             var url = 'http://localhost/api/user/' + friendName;
             var fr = $.get(url, (f) => {fr = f.user}).done(() => {
@@ -323,12 +346,19 @@ $("#FileUpload").change(function () {
                         $("#input_"+fr.username).focus();
                         if(msgs.length > 0){
                             $.each(msgs, (k,message)=>{
+                                var id = makeid();
+                                var date;
+                                if((Math.round(new Date() / 1000) - message.send_at) > (60 * 60 * 24)){
+                                    date = moment(message.send_at, "X").format('D MMMM HH:mm');
+                                }else{
+                                    date = moment(message.send_at, "X").format('HH:mm');
+                                }
                                if(user.username == message.from_username){
-                                   $("#msgs_" + fr.username).append("<li class='odd'><div class='chat-body'><div class='chat-text'><p>" + message.message + "</p></div></div></li>");
+                                   $("#msgs_" + fr.username).append("<li class='odd' id='"+id+"' data-toggle='tooltip' data-container=\"#"+id+"\" data-placement='right' title='"+date+"'><div class='chat-body'><div class='chat-text'><p>" + message.message + "</p></div></div></li>");
                                }else{
-                                   $("#msgs_" + fr.username).append("<li><div class='chat-image'><img alt='' src='"+fr.photo+"'></div><div class='chat-body'><div class='chat-text'><p>" + message.message + "</p></div></div></li>");
-
+                                   $("#msgs_" + fr.username).append("<li id='"+id+"' data-toggle='tooltip' data-container=\"#"+id+"\" data-placement='left' title='"+date+"'><div class='chat-image'><img alt='' src='"+fr.photo+"'></div><div class='chat-body'><div class='chat-text'><p>" + message.message + "</p></div></div></li>");
                                }
+                               $("#"+id).tooltip();
                             });
                             $("#msgs_" + fr.username).animate({scrollTop: $("#msgs_" + fr.username).prop("scrollHeight")}, 50);
                         }else{
@@ -357,6 +387,10 @@ $("#FileUpload").change(function () {
 
         socket.on('message_received', (msg) => {
             msgSound.play();
+            var sender = $.get('/api/user/' + msg.sender, (v) =>{sender = v.user}).done(function(x){
+                $("#msgs_" + msg.sender).append("<li><div class='chat-image'><img alt='' src='"+sender.photo+"'></div><div class='chat-body'><div class='chat-text'><p>" + msg.message + "</p></div></div></li>")
+                    $("#msgs_" + msg.sender).animate({scrollTop: $("#msgs_" + msg.sender).prop("scrollHeight")}, 50);
+            })
         });
 
         $(document).delegate('.closePanel','click',function () {
