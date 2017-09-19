@@ -21027,7 +21027,7 @@ li.L1,li.L3,li.L5,li.L7,li.L9 { }
     right: 300px;
     width: 300px;
     bottom: 5px;
-    z-index: 9996;
+    z-index: 9000;
 }
 .chat-header {
     font-size: 12px !important;
@@ -21080,3 +21080,6 @@ li.L1,li.L3,li.L5,li.L7,li.L9 { }
     word-wrap: break-word;
 }
 p { word-break: break-all }
+.tooltip {
+    z-index: 9995 !important;
+}
