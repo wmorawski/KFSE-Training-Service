@@ -21083,3 +21083,14 @@ p { word-break: break-all }
 .tooltip {
     z-index: 9995 !important;
 }
+.row {
+    display: -webkit-box !important;
+    display: -webkit-flex !important;
+    display: -ms-flexbox !important;
+    display:         flex !important;
+    flex-wrap: wrap !important;
+}
+.row > [class*='col-'] {
+    display: flex !important;
+    flex-direction: column !important;
+}

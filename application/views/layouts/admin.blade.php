@@ -206,6 +206,7 @@
     <!-- Page Content -->
     <div id="page-wrapper" style="">
         <div class="container-fluid" style="padding-right: 0; margin-right: 0;" >
+            <div class="row">
             <div class="col-md-10" style="position: relative;">
                 @yield('content')
             </div>
@@ -272,6 +273,7 @@
 
                 </div>
 
+            </div>
             </div>
         </div>
         <!-- /.container-fluid -->
