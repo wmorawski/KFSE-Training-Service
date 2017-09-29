@@ -27,6 +27,8 @@ class Users extends CI_Controller {
 
     public function index($username = null)
     {
+
+
         $own = false;
         $site =  $this->uri->segment(2);
         $user = $this->Users_model->get($username);
