@@ -24,6 +24,7 @@ class Welcome extends CI_Controller {
 	{
         $user = $this->Users_model->get($this->session->username);
         $data['user'] = $user;
+
 		$this->blade->render('welcome/index', $data);
 	}
 }
