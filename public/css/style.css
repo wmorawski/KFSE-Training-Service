@@ -21023,10 +21023,10 @@ li.L1,li.L3,li.L5,li.L7,li.L9 { }
     margin-bottom: 0 !important;
 }
 .chatboxWrapper {
-    position: absolute;
+    position: fixed;
     right: 300px;
     width: 300px;
-    bottom: 5px;
+    bottom: 0;
     z-index: 9000;
 }
 .chat-header {
@@ -21035,7 +21035,7 @@ li.L1,li.L3,li.L5,li.L7,li.L9 { }
     cursor: pointer;
 }
 .chat-footer {
-    padding-top: 0 !important;
+    padding-top: 10px !important;
     padding-right: 25px !important;
     padding-left: 10px !important;
     padding-bottom: 2px !important;
@@ -21082,4 +21082,30 @@ li.L1,li.L3,li.L5,li.L7,li.L9 { }
 p { word-break: break-all }
 .tooltip {
     z-index: 9995 !important;
+}
+.btn span {
+  max-width: 0;
+  -webkit-transition: all 450ms;
+  transition: all 450ms;
+  display: inline-block;
+  vertical-align: top;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.btn:hover span {
+  max-width: 100%;
+}
+html,
+body {
+  min-height: 100%;
+  padding: 0;
+  margin: 0;
+}
+#rightSidebar
+{
+  position:  absolute;
+background: white; height: 100%;
+right: 0; top : 0;
+  padding-top: 40px;
+  padding-right: 0; margin-right: 0; max-height: 100%; max-width: 280px;
 }

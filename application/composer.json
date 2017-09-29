@@ -4,6 +4,7 @@
         "wisembly/elephant.io": "^3.3",
         "xpaw/php-source-query-class": "^1.0",
         "guzzle/guzzle": "^3.9",
-        "guzzlehttp/guzzle": "^6.3"
+        "guzzlehttp/guzzle": "^6.3",
+        "facebook/graph-sdk": "^5.6"
     }
 }

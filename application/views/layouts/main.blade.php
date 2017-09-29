@@ -14,7 +14,7 @@
     <meta name="author" content="">
     <!-- Favicon icon -->
 
-    <title>Ample Admin Template - The Ultimate Multipurpose admin template</title>
+    <title>@yield('title')</title>
     <!-- Bootstrap Core CSS -->
     <link href="{{base_url('public/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet">
     <!-- This is Sidebar menu CSS -->
@@ -179,8 +179,8 @@
             <div class="sidebar-head">
                 <h3><span class="fa-fw open-close"><i class="ti-menu hidden-xs"></i><i class="ti-close visible-xs"></i></span> <span class="hide-menu">Nawigacja</span></h3> </div>
             <ul class="nav" id="side-menu">
-                <li><a href="javascript:void(0)" class="waves-effect active"><i data-icon="7" class="icon-home fa-fw"></i><span class="hide-menu">Strona domowa </span></a> </li>
-                <li><a href="javascript:void(0)" class="waves-effect"><i data-icon="7" class="icon-graph fa-fw"></i><span class="hide-menu">Statystyki </span></a> </li>
+                <li><a href="{{base_url('/')}}" class="waves-effect {{set_active('welcome')}}"><i data-icon="7" class="icon-home fa-fw"></i><span class="hide-menu">Strona domowa </span></a> </li>
+                <li><a href="{{base_url('stats/')}}" class="waves-effect {{set_active("stats")}}"><i data-icon="7" class="icon-graph fa-fw"></i><span class="hide-menu">Statystyki </span></a> </li>
                 <li> <a href="javascript:void(0)" class="waves-effect"><i data-icon="7" class="icon-organization fa-fw"></i><span class="hide-menu">Treningi</span></a></li>
                 <li> <a href="javascript:void(0)" class="waves-effect"><i data-icon="7" class="icon-game-controller fa-fw"></i><span class="hide-menu">Mecze</span></a></li>
                 <li> <a href="javascript:void(0)" class="waves-effect"><i data-icon="7" class="icon-location-pin fa-fw"></i><span class="hide-menu">Spotkania</span></a></li>
@@ -206,58 +206,10 @@
     <!-- Page Content -->
     <div id="page-wrapper" style="">
         <div class="container-fluid" style="padding-right: 0; margin-right: 0;" >
-            <div class="col-md-10" style="position: relative;">
+            <div class="col-md-9 col-lg-9" style="position: relative;">
                 @yield('content')
             </div>
-            <div class="col-md-2" style="padding-right: 0; margin-right: 0; max-height: 100%;" id="rightSidebar">
-                <div class="panel panel-themecolor">
-                    <div class="panel-body  user-activity">
-                        <div class="steamline">
-                            <div class="sl-item">
-                                <div class="sl-left bg-success"> <i class="ti-user"></i></div>
-                                <div class="sl-right">
-                                    <div><a href="#">Tohnathan Doe</a> <span class="sl-date">5 minutes ago</span></div>
-                                    <div class="desc">Contrary to popular belief</div>
-                                </div>
-                            </div>
-                            <div class="sl-item">
-                                <div class="sl-left bg-info"><i class="fa fa-image"></i></div>
-                                <div class="sl-right">
-                                    <div><a href="#">Hritik Roshan</a> <span class="sl-date">5 minutes ago</span></div>
-                                    <div class="desc">Lorem Ipsum is simply dummy</div>
-                                    <div class="row inline-photos">
-                                        <div class="col-xs-4"><img class="img-responsive" alt="user" src="/public/plugins/images/small/vd1.jpg"></div>
-                                        <div class="col-xs-4"><img class="img-responsive" alt="user" src="/public/plugins/images/small/vd2.jpg"></div>
-                                        <div class="col-xs-4"><img class="img-responsive" alt="user" src="/public/plugins/images/small/vd3.jpg"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="sl-item">
-                                <div class="sl-left"> <img class="img-circle" alt="user" src="/public/plugins/images/users/sonu.jpg"> </div>
-                                <div class="sl-right">
-                                    <div><a href="#">Gohn Doe</a> <span class="sl-date">5 minutes ago</span></div>
-                                    <div class="desc">The standard chunk of ipsum </div>
-                                </div>
-                            </div>
-                            <div class="sl-item">
-                                <div class="sl-left"> <img class="img-circle" alt="user" src="/public/plugins/images/users/ritesh.jpg"> </div>
-                                <div class="sl-right">
-                                    <div><a href="#">Varun Dhavan</a> <span class="sl-date">5 minutes ago</span></div>
-                                    <div class="desc">Contrary to popular belief</div>
-                                </div>
-                            </div>
-                            <div class="sl-item">
-                                <div class="sl-left"> <img class="img-circle" alt="user" src="/public/plugins/images/users/govinda.jpg"> </div>
-                                <div class="sl-right">
-                                    <div><a href="#">Tiger Sroff</a> <span class="sl-date">5 minutes ago</span></div>
-                                    <div class="desc">The generated lorem ipsum
-                                        <br><a href="javascript:void(0)" class="btn m-t-10 m-r-5 btn-rounded btn-outline btn-success">Apporve</a> <a href="javascript:void(0)" class="btn m-t-10 btn-rounded btn-outline btn-danger">Refuse</a> </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+            <div class="col-md-3 col-lg-3" id="rightSidebar">
                 <div class="sk-chat-widgets">
                     <div class="panel panel-themecolor" style="height: 100%; border-top:1px solid rgba(120, 130, 140, 0.13);">
                         <div class="panel-body contacts">
@@ -302,6 +254,7 @@
 <script src="{{base_url('public/js/waves.js')}}"></script>
 <!-- Custom Theme JavaScript -->
 <script src="{{base_url('public/js/custom.js')}}"></script>
+<script src="{{base_url('public/js/chat.js')}}"></script>
 <script src="{{base_url('public/js/app.js')}}"></script>
 
 </body>

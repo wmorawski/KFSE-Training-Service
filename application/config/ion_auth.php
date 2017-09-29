@@ -86,7 +86,7 @@ $config['site_title']                 = "Aceleague.pl";       // Site Title, exa
 $config['admin_email']                = "ratten@aceleague.pl"; // Admin Email, admin@example.com
 $config['default_group']              = 'members';           // Default group, use name
 $config['admin_group']                = 'admin';             // Default administrators group, use name
-$config['identity']                   = 'username';             // You can use any unique column in your table as identity column. The values in this column, alongside password, will be used for login purposes
+$config['identity']                   = 'email';             // You can use any unique column in your table as identity column. The values in this column, alongside password, will be used for login purposes
 $config['min_password_length']        = 8;                   // Minimum Required Length of Password
 $config['max_password_length']        = 20;                  // Maximum Allowed Length of Password
 $config['email_activation']           = FALSE;               // Email Activation for registration
@@ -102,7 +102,7 @@ $config['forgot_password_expiration'] = 0;                   // The number of mi
 $config['recheck_timer']              = 0;                   /* The number of seconds after which the session is checked again against database to see if the user still exists and is active.
 							           Leave 0 if you don't want session recheck. if you really think you need to recheck the session against database, we would
 								   recommend a higher value, as this would affect performance */
-								
+
 
 /*
  | -------------------------------------------------------------------------
