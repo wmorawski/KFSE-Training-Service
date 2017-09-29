@@ -108,7 +108,9 @@ class Api extends CI_Controller
             $steam = $this->users_model->getSteamAccount($username);
             $this->response['user']->steam = $steam->steamid;
             $this->response['user']->friends = $this->api_model->getFriends($username);
-
+            if($username == $this->session->username){
+                $this->response['user']->messages = [];
+            }
         } else {
             $this->response['status'] = 0;
             $this->response['error'] = 404;
