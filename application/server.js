@@ -125,7 +125,6 @@ io.on('connection', function(socket){
         io.sockets.in(p.user).emit('queue_start', { 'status' : 'success'});
     });
     socket.on('send_message',(msg) => {
-      msg.key = apikey;
         var querystring = require("querystring");
         var qs = querystring.stringify(msg);
         var qslength = qs.length;
@@ -373,3 +372,4 @@ admin.on('connection', function(socket){
 //   });
 
 // });
+
