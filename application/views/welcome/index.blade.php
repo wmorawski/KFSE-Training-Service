@@ -22,7 +22,7 @@
                 <h3 class="box-title">Blank Starter page</h3>
 
                 <h5 class="box-title">Dane sesji</h5>
-
+                {{$this->router->class}}
                 <pre class="prettyprint">
                     {{print_r(json_encode($this->session->userdata(), JSON_PRETTY_PRINT | JSON_NUMERIC_CHECK | JSON_UNESCAPED_SLASHES), true)}}
                 </pre>

@@ -1,7 +1,8 @@
 @layout('layouts/auth')
+@section('title')KFSE - Logowanie @endsection
 @section('content')
-    <form action="http://localhost/login" method="post" accept-charset="utf-8" class="form-horizontal form-material" id="loginform" >
-        <a href="javascript:void(0)" class="text-center db"><img src="../plugins/images/admin-logo-dark.png" alt="Home" /><br/><img src="../plugins/images/admin-text-dark.png" alt="Home" /></a>
+    <form action="/login" method="post" accept-charset="utf-8" class="form-horizontal form-material" id="loginform" >
+        <a href="javascript:void(0)" class="text-center db"><img src="/public/plugins/images/admin-logo-dark.png" alt="Home" /><br/><img src="/public/plugins/images/admin-text-dark.png" alt="Home" /></a>
 
         <div class="form-group m-t-40">
             <div class="col-xs-12">
@@ -28,7 +29,7 @@
         </div>
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12 m-t-10 text-center">
-                <div class="social"><a href="javascript:void(0)" class="btn  btn-primary btn-rounded btn-outline" data-toggle="tooltip"  title="Login with Facebook"> <i aria-hidden="true" class="fa icon-social-facebook"></i> Zaloguj przez Facebook</a> </div>
+                <div class="social"><a href="javascript:void(0)" id="fbLogin" class="btn  btn-primary btn-rounded btn-outline" data-toggle="tooltip"  title="Zaloguj przez Facebooka"> <i aria-hidden="true" class="fa icon-social-facebook"></i><span> Zaloguj przez Facebook</span></a> </div>
             </div>
         </div>
         <div class="form-group m-b-0">

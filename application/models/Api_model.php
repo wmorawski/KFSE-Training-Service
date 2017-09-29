@@ -89,7 +89,30 @@ class Api_model extends CI_Model {
         }
     }
     public function getFriends($username){
-        $friends = $this->db->where("username_1 ='".$username."' OR username_2 ='".$username."'")->get('friendships')->result();
+//        $friends = $this->db->where("username_1 ='".$username."' OR username_2 ='".$username."'")->get('friendships')->result();
+        $friends = $this->db
+            ->query("SELECT friendships.id,friendships.username_1,friendships.username_2,friendships.status, users.username, users.email, users.last_online, users.first_name, users.last_name, users.photo FROM friendships INNER JOIN users ON (friendships.username_1 = users.username OR friendships.username_2 = users.username) WHERE ((friendships.username_1 = '{$username}' OR friendships.username_2 = '{$username}') AND (users.username != '{$username}'))")->result();
         return $friends;
+    }
+    public function addMessage($post){
+        $data = [
+            'from_username' => $post['sender'],
+            'to_username' => $post['receiver'],
+            'message' => $post['message'],
+            'send_at' => time()
+        ];
+        $this->db->insert('conversations',$data);
+        $str = $this->db->insert_string('conversations', $data);
+        return $str;
+    }
+    public function getMessages($get){
+        return $this->db->where("(`from_username` = \"".$get['username']."\" AND `to_username` = \"".$get['friendname']."\") OR (`from_username` = \"".$get['friendname']."\" AND `to_username` = \"".$get['username']."\")")->limit(50)->order_by('send_at','DESC')->get('conversations')->result();
+    }
+    public function verifyKey($key){
+      if($this->db->where("api_key",$key)->get('api_keys')->row()){
+        return TRUE;
+      }else{
+        return FALSE;
+      }
     }
 }
