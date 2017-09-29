@@ -46,15 +46,17 @@ $(document).ready(function() {
     var year = date.getFullYear();
     
     $('#calendar').fullCalendar({
-       
+            lang: 'pl',
             header: {
                 left: 'prev,next today',
                 center: 'title',
                 right: 'month,agendaWeek,agendaDay'
             },
-            editable: true,
+
+            editable: false,
             droppable: true, // this allows things to be dropped onto the calendar
             eventLimit: true, // allow "more" link when too many events
+            timeFormat: 'H(:mm)',
             events: [
                 {
                     title: 'All Day Event',
