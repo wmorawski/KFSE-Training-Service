@@ -1002,7 +1002,14 @@ pre {
 .pagination > .active > a:hover,
 .pagination > .active > span:hover,
 .pagination > .active > a:focus,
-.pagination > .active > span:focus {
+.pagination > .active > span:focus,
+.pager > .active > a,
+.pager > .active > span,
+.pager > .active > a:hover,
+.pager > .active > span:hover,
+.pager > .active > a:focus,
+.pager > .active > span:focus
+ {
     background-color: #2cabe3;
     border-color: #2cabe3;
 }
@@ -1046,7 +1053,7 @@ pre {
     color: #58666e;
     left: 0px;
     padding: 20px 30px;
-    position: absolute;
+    position: relative;
     right: 0;
     background: #ffffff;
 }
@@ -1206,8 +1213,9 @@ pre {
 }
 
 .navbar-top-links .dropdown-user .dw-user-box .u-img {
-    width: 80px;
+    width: 50px;
     display: inline-block;
+    float: left;
     vertical-align: top;
 }
 
@@ -1605,6 +1613,11 @@ pre {
 .btn-github {
     color: #ffffff !important;
     background-color: #171515 !important;
+}
+
+.btn-steam {
+    color: #ffffff !important;
+    background-color: #000 !important;
 }
 
 .btn-primary.active.focus,
@@ -4823,7 +4836,8 @@ table.focus-on tbody tr.focused td {
     margin-bottom: 30px;
 }
 
-#recoverform {
+#recoverform,
+#registerform {
     display: none;
 }
 
@@ -6876,6 +6890,7 @@ ul.wallet-list li a:hover {
 
 /*sk-chat-widgets*/
 .sk-chat-widgets .chatonline {
+    /*padding: 0px 20px;*/
     padding: 0px;
 }
 
@@ -19538,7 +19553,9 @@ table.dataTable.order-column.stripe tbody tr.even > .sorting_1 {
 }
 
 .chat-main-box .chat-left-aside {
-    position: absolute;
+    /*position: absolute;*/
+    position: relative;
+    float: left;
     width: 250px;
     z-index: 9;
     top: 0px;
@@ -21026,8 +21043,10 @@ li.L1,li.L3,li.L5,li.L7,li.L9 { }
     position: fixed;
     right: 300px;
     width: 300px;
-    bottom: 0;
+    bottom: 0px;
     z-index: 9000;
+    border-radius: 3px 3px 0 0;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .3);
 }
 .chat-header {
     font-size: 12px !important;
@@ -21035,7 +21054,7 @@ li.L1,li.L3,li.L5,li.L7,li.L9 { }
     cursor: pointer;
 }
 .chat-footer {
-    padding-top: 10px !important;
+    padding-top: 0 !important;
     padding-right: 25px !important;
     padding-left: 10px !important;
     padding-bottom: 2px !important;
@@ -21054,9 +21073,10 @@ li.L1,li.L3,li.L5,li.L7,li.L9 { }
     width: 32px !important;
 }
 .footer {
-    padding: 0 !important;
+    padding: 15px 0px !important;
+   /* padding: 0 !important;
     padding-top: 15px !important;
-    padding-bottom: 10px !important;
+    padding-bottom: 10px !important;*/
 }
 .chat-list .odd .chat-text {
     background-color: #FF7676 !important;
@@ -21072,7 +21092,10 @@ li.L1,li.L3,li.L5,li.L7,li.L9 { }
     font-size: 12px !important;
 }
 .messages {
-    overflow-x: hidden;overflow-y: auto; width: auto; height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: auto;
+    height: 100%;
 
 }
 .chat-list .chat-text {
@@ -21083,29 +21106,46 @@ p { word-break: break-all }
 .tooltip {
     z-index: 9995 !important;
 }
-.btn span {
-  max-width: 0;
-  -webkit-transition: all 450ms;
-  transition: all 450ms;
-  display: inline-block;
-  vertical-align: top;
-  white-space: nowrap;
-  overflow: hidden;
+.list-event.games{
+    overflow: hidden;
+    margin: 10px 0px;
+    padding: 0px;
+    list-style: none;
 }
-.btn:hover span {
-  max-width: 100%;
+.list-event.games li {
+    display: block;
+    width: 24px;
+    height: 24px;
+    float: left;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 24px;
+    margin: 5px 0px 0px 5px; 
 }
-html,
-body {
-  min-height: 100%;
-  padding: 0;
-  margin: 0;
+/*.list-event.games li:nth-child(5n+1) {
+    margin-left: 0px;
 }
-#rightSidebar
-{
-  position:  absolute;
-background: white; height: 100%;
-right: 0; top : 0;
-  padding-top: 40px;
-  padding-right: 0; margin-right: 0; max-height: 100%; max-width: 280px;
+.list-event.games li:nth-child(-n+5) {
+    margin-top: 0px;
+}*/
+.list-event.games li.csgo { background-image: url('../images/icon-games/counter-strike.png'); }
+.list-event.games li.hearthstone { background-image: url('../images/icon-games/hearthstone.png'); }
+.list-event.games li.heroes { background-image: url('../images/icon-games/heroes.png'); }
+.list-event.games li.lol { background-image: url('../images/icon-games/leagueoflegends.png'); }
+.list-event.games li.mortal-kombat { background-image: url('../images/icon-games/mortal-kombat.png'); }
+.list-event.games li.overwatch { background-image: url('../images/icon-games/overwatch.png'); }
+.list-event.games li.quake { background-image: url('../images/icon-games/quake.png'); }
+.list-event.games li.dota { background-image: url('../images/icon-games/dota.png'); }
+.list-event.games li.starcraft { background-image: url('../images/icon-games/starcraft-2.png'); }
+.list-event.games li.word-of-tanks { background-image: url('../images/icon-games/word-of-tanks.png'); }
+.list-event.games li.none {
+    display: none;
+}
+.list-event.games li.more {
+    text-align: center;
+    font-size: 20px;
+}
+.list-event.games li.more a,
+.list-event.games li.more a:hover{
+    color: #000;
 }
