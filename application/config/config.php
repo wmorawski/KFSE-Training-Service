@@ -772,7 +772,7 @@ $config['sess_match_ip'] = FALSE;
 
 $config['sess_time_to_update'] = 300;
 
-$config['sess_regenerate_destroy'] = FALSE;
+$config['sess_regenerate_destroy'] = TRUE;
 
 
 
@@ -812,7 +812,7 @@ $config['cookie_domain']	= '';
 
 $config['cookie_path']		= '/';
 
-$config['cookie_secure']	= FALSE;
+$config['cookie_secure']	= false;
 
 $config['cookie_httponly'] 	= FALSE;
 
@@ -1047,3 +1047,4 @@ $config['rewrite_short_tags'] = FALSE;
 */
 
 $config['proxy_ips'] = '';
+
