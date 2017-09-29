@@ -106,6 +106,13 @@ class Api_model extends CI_Model {
         return $str;
     }
     public function getMessages($get){
-        return $this->db->where("(`from_username` = \"".$get['username']."\" AND `to_username` = \"".$get['friendname']."\") OR (`from_username` = \"".$get['friendname']."\" AND `to_username` = \"".$get['username']."\")")->get('conversations')->result();
+        return $this->db->where("(`from_username` = \"".$get['username']."\" AND `to_username` = \"".$get['friendname']."\") OR (`from_username` = \"".$get['friendname']."\" AND `to_username` = \"".$get['username']."\")")->limit(50)->order_by('send_at','DESC')->get('conversations')->result();
+    }
+    public function verifyKey($key){
+      if($this->db->where("api_key",$key)->get('api_keys')->row()){
+        return TRUE;
+      }else{
+        return FALSE;
+      }
     }
 }

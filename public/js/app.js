@@ -342,9 +342,10 @@ $("#FileUpload").change(function () {
                      $(v).css('right', nRstring);
                     });
                     var msgs = $.get('http://localhost/api/messages/?username='+user.username+'&friendname='+fr.username, (m) => {msgs = m}).done(()=>{
-                        $("#rightSidebar").prepend('<div class="chatboxWrapper" id="chat_' + fr.username + '"><div class="panel panel-themecolor"><div class="panel-heading chat-header"> <span class="friendName">' + fr.first_name + ' ' + fr.last_name + '</span><div class="pull-right"> <a href="#" data-perform="panel-dismiss" data-wrapname="chat_'+fr.username+'" class="closePanel"><i class="ti-close"></i></a> </div></div> <div class="panel-wrapper collapse in" aria-expanded="true"> <div class="panel-body chat-body-kfse"> <div class="chat-box" style="height: 260px"> <ul id="msgs_'+fr.username+'" class="chat-list slimscroll messages"  tabindex="5005"> </ul> </div> </div> <div class="panel-footer chat-footer"> <div class="row"> <div class="col-xs-10"> <textarea placeholder="Wpisz wiadomość..." class="chat-box-input" id="input_'+fr.username+'" tabindex="' + openedConvCount + '"  style="overflow: hidden;"></textarea> </div> <div class="col-xs-2 text-right"> <button class="btn btn-success btn-circle btn-sm" type="button"><i class="icon-paper-plane"></i></button> </div> </div> </div> </div> </div>');
+                        $("#rightSidebar").prepend('<div class="chatboxWrapper z-depth-1" id="chat_' + fr.username + '"><div class="panel panel-themecolor"><div class="panel-heading chat-header"> <span class="friendName">' + fr.first_name + ' ' + fr.last_name + '</span><div class="pull-right"> <a href="#" data-perform="panel-dismiss" data-wrapname="chat_'+fr.username+'" class="closePanel"><i class="ti-close"></i></a> </div></div> <div class="panel-wrapper collapse in" aria-expanded="true"> <div class="panel-body chat-body-kfse"> <div class="chat-box" style="height: 260px"> <ul id="msgs_'+fr.username+'" class="chat-list slimscroll messages"  tabindex="5005"> </ul> </div> </div> <div class="panel-footer chat-footer"> <div class="row"> <div class="col-xs-10"> <textarea placeholder="Wpisz wiadomość..." class="chat-box-input" id="input_'+fr.username+'" tabindex="' + openedConvCount + '"  style="overflow: hidden;"></textarea> </div> <div class="col-xs-2 text-right"> </div> </div> </div> </div> </div>');
                         $("#input_"+fr.username).focus();
                         if(msgs.length > 0){
+                          msgs.reverse();
                             $.each(msgs, (k,message)=>{
                                 var id = makeid();
                                 var date;
@@ -407,7 +408,6 @@ $("#FileUpload").change(function () {
             });
         })
         $(document).delegate('.chat-header','click',function(){
-            console.log($(this));
             var wrapper = $(this).parent().children('.panel-wrapper');
             if(wrapper.hasClass('in')){
                 wrapper.removeClass('in').addClass('out');
@@ -418,4 +418,3 @@ $("#FileUpload").change(function () {
 
 
     });
-

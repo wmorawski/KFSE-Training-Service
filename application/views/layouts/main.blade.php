@@ -15,9 +15,6 @@
     <!-- Favicon icon -->
 
     <title>@yield('title')</title>
-
-    <link rel="shortcut icon" href="{{base_url('public/img/favicon.ico')}}">
-
     <!-- Bootstrap Core CSS -->
     <link href="{{base_url('public/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet">
     <!-- This is Sidebar menu CSS -->
@@ -38,11 +35,6 @@
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
-    @yield('headcss')
-
-    @yield('tscript')
-
 </head>
 
 <body class="fix-sidebar">
@@ -74,7 +66,7 @@
                     </a>
                     <ul class="dropdown-menu mailbox animated bounceInDown">
                         <li>
-                            <div class="drop-title">Masz 4 nowe wiadomości</div>
+                            <div class="drop-title">You have 4 new messages</div>
                         </li>
                         <li>
                             <div class="message-center">
@@ -86,12 +78,63 @@
                             </div>
                         </li>
                         <li>
-                            <a class="text-center" href="javascript:void(0);"> <strong>Zobacz wszystkie powiadomienia</strong><i class="fa fa-angle-right"></i> </a>
+                            <a class="text-center" href="javascript:void(0);"> <strong>See all notifications</strong> <i class="fa fa-angle-right"></i> </a>
                         </li>
                     </ul>
                     <!-- /.dropdown-messages -->
                 </li>
                 <!-- .Task dropdown -->
+                <li class="dropdown">
+                    <a class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#"> <i class="fa icon-bubbles v-middle"></i>
+                        <div class="notify"><span class="heartbit"></span><span class="point"></span></div>
+                    </a>
+                    <ul class="dropdown-menu dropdown-tasks animated slideInUp">
+                        <li>
+                            <a href="javascript:void(0)">
+                                <div>
+                                    <p> <strong>Task 1</strong> <span class="pull-right text-muted">40% Complete</span> </p>
+                                    <div class="progress progress-striped active">
+                                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%"> <span class="sr-only">40% Complete (success)</span> </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a class="text-center" href="#"> <strong>See All Tasks</strong> <i class="fa fa-angle-right"></i> </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- .Megamenu -->
+                <li class="mega-dropdown"> <a class="dropdown-toggle waves-effect waves-light" data-toggle="dropdown" href="#"><span class="hidden-xs">Mega</span> <i class="icon-options-vertical"></i></a>
+                    <ul class="dropdown-menu mega-dropdown-menu animated bounceInDown">
+                        <li class="col-sm-3">
+                            <ul>
+                                <li class="dropdown-header">Header Title</li>
+                                <li><a href="javascript:void(0)">Link of page</a> </li>
+                            </ul>
+                        </li>
+                        <li class="col-sm-3">
+                            <ul>
+                                <li class="dropdown-header">Header Title</li>
+                                <li><a href="javascript:void(0)">Link of page</a> </li>
+                            </ul>
+                        </li>
+                        <li class="col-sm-3">
+                            <ul>
+                                <li class="dropdown-header">Header Title</li>
+                                <li><a href="javascript:void(0)">Link of page</a> </li>
+                            </ul>
+                        </li>
+                        <li class="col-sm-3">
+                            <ul>
+                                <li class="dropdown-header">Header Title</li>
+                                <li> <a href="javascript:void(0)">Link of page</a> </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <!-- /.Megamenu -->
             </ul>
             <!-- This is the message dropdown -->
             <ul class="nav navbar-top-links navbar-right pull-right">
@@ -99,30 +142,25 @@
                 <!-- /.dropdown -->
                 <li>
                     <form role="search" class="app-search hidden-sm hidden-xs m-r-10">
-                        <input type="text" placeholder="Wyszukaj..." class="form-control"><a href=""><i class="fa-fw fa icon-magnifier"></i></a>
-                    </form>
+                        <input type="text" placeholder="Wyszukaj..." class="form-control"> <a href=""><i class="fa-fw fa icon-magnifier"></i></a> </form>
                 </li>
                 <li class="dropdown">
                     <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#"> <img src="{{$this->session->photo}}" alt="{{$this->session->username}}-avatar" width="36" class="img-circle"><b class="hidden-xs">{{$this->user->getUsername()}}</b><span class="caret"></span> </a>
                     <ul class="dropdown-menu dropdown-user">
                         <li>
-                            <a href="{{base_url('/usersss')}}" class="dw-user-box">
-                                <div class="u-img">
-                                    <img src="{{$this->session->photo}}" alt="{{$this->user->getUsername()}} photo" />
-                                </div>
-                                <div class="u-text">
-                                    <h4>{{ ($this->user->getFirstName() && $this->user->getLastName()) ? $this->user->getFirstName()." ".$this->user->getLastName() : $this->user->getUsername() }}</h4>
-                                    <p class="text-muted">{{$this->user->getEmail()}}</p>
-                                </div>
-                            </a>
+                            <div class="dw-user-box">
+                                <div class="u-img"><img src="{{$this->session->photo}}" alt="user" /></div>
+                                <div class="u-text"><h4>{{ ($this->user->getFirstName() && $this->user->getLastName()) ? $this->user->getFirstName()." ".$this->user->getLastName() : $this->user->getUsername() }}</h4><p class="text-muted">{{$this->user->getEmail()}}</p><a href="profile.html" class="btn btn-rounded btn-danger btn-sm">View Profile</a></div>
+                            </div>
                         </li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="{{base_url('usersss/friendships')}}"><i class="ti-user"></i> Lista znajomych</a></li>
-                        <li><a href="{{base_url('messages')}}"><i class="ti-email"></i> Wiadomości</a></li>
+                        <li><a href="#"><i class="ti-user"></i> My Profile</a></li>
+                        <li><a href="#"><i class="ti-wallet"></i> My Balance</a></li>
+                        <li><a href="#"><i class="ti-email"></i> Inbox</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="{{base_url('/settings/profile')}}"><i class="ti-settings"></i> Ustawienia</a></li>
+                        <li><a href="#"><i class="ti-settings"></i> Account Setting</a></li>
                         <li role="separator" class="divider"></li>
-                        <li><a href="{{base_url('/logout')}}"><i class="fa icon-power"></i> Wyloguj się</a></li>
+                        <li><a href="/logout"><i class="fa icon-power"></i> Wyloguj się</a></li>
                     </ul>
                     <!-- /.dropdown-user -->
                 </li>
@@ -139,21 +177,24 @@
     <div class="navbar-default sidebar" role="navigation">
         <div class="sidebar-nav slimscrollsidebar">
             <div class="sidebar-head">
-			<h3><span class="fa-fw open-close"><i class="ti-menu hidden-xs"></i><i class="ti-close visible-xs"></i></span> <span class="hide-menu">Nawigacja</span></h3></div>
-			<ul class="nav" id="side-menu">
-                <li><a href="{{base_url('/')}}" class="waves-effect {{set_active('welcome')}}"><i data-icon="7" class="icon-home fa-fw"></i><span class="hide-menu">Strona domowa</span></a></li>
-                <li><a href="{{base_url('stats/')}}" class="waves-effect {{set_active("stats")}}"><i data-icon="7" class="icon-graph fa-fw"></i><span class="hide-menu">Statystyki</span></a></li>
-                <li><a href="{{base_url('training/')}}" class="waves-effect {{set_active("training")}}"><i data-icon="7" class="icon-organization fa-fw"></i><span class="hide-menu">Treningi</span></a></li>
-                <li><a href="{{base_url('matches/')}}" class="waves-effect {{set_active("matches")}}"><i data-icon="7" class="icon-game-controller fa-fw"></i><span class="hide-menu">Mecze</span></a></li>
-                <li><a href="{{base_url('meetings/')}}" class="waves-effect {{set_active("meetings")}}"><i data-icon="7" class="icon-location-pin fa-fw"></i><span class="hide-menu">Spotkania</span></a></li>
-                <li><a href="{{base_url('events/')}}" class="waves-effect {{set_active("events")}}"><i data-icon="7" class="icon-trophy fa-fw"></i><span class="hide-menu">Turnieje</span></a></li>
-                <li><a href="{{base_url('/calendar')}}" class="waves-effect {{set_active('calendar')}}"><i data-icon="7" class="icon-calendar fa-fw"></i><span class="hide-menu">Kalendarz</span></a></li>
-                <li><a href="javascript:void(0)" class="waves-effect"><i class="mdi mdi-checkbox-multiple-marked-outline fa-fw"></i><span class="hide-menu">Ustawienia<span class="fa arrow"></span></span></a>
+                <h3><span class="fa-fw open-close"><i class="ti-menu hidden-xs"></i><i class="ti-close visible-xs"></i></span> <span class="hide-menu">Nawigacja</span></h3> </div>
+            <ul class="nav" id="side-menu">
+                <li><a href="{{base_url('/')}}" class="waves-effect {{set_active('welcome')}}"><i data-icon="7" class="icon-home fa-fw"></i><span class="hide-menu">Strona domowa </span></a> </li>
+                <li><a href="{{base_url('stats/')}}" class="waves-effect {{set_active("stats")}}"><i data-icon="7" class="icon-graph fa-fw"></i><span class="hide-menu">Statystyki </span></a> </li>
+                <li> <a href="javascript:void(0)" class="waves-effect"><i data-icon="7" class="icon-organization fa-fw"></i><span class="hide-menu">Treningi</span></a></li>
+                <li> <a href="javascript:void(0)" class="waves-effect"><i data-icon="7" class="icon-game-controller fa-fw"></i><span class="hide-menu">Mecze</span></a></li>
+                <li> <a href="javascript:void(0)" class="waves-effect"><i data-icon="7" class="icon-location-pin fa-fw"></i><span class="hide-menu">Spotkania</span></a></li>
+                <li> <a href="javascript:void(0)" class="waves-effect"><i data-icon="7" class="icon-trophy fa-fw"></i><span class="hide-menu">Turnieje</span></a></li>
+                <li> <a href="javascript:void(0)" class="waves-effect"><i data-icon="" class="linea-icon linea-basic fa-fw"></i><span class="hide-menu">Multi Dropdown<span class="fa arrow"></span></span></a>
                     <ul class="nav nav-second-level">
-                        <li><a href="javascript:void(0)" class="waves-effect"><i class="icon-people linea-basic fa-fw"></i><span class="hide-menu">Użytkownicy i Grupy</span><span class="fa arrow"></span></a>
+                        <li> <a href="javascript:void(0)"><i data-icon="/" class="linea-icon linea-basic fa-fw"></i><span class="hide-menu">Second Level Item</span></a> </li>
+                        <li> <a href="javascript:void(0)"><i data-icon="7" class="linea-icon linea-basic fa-fw"></i><span class="hide-menu">Second Level Item</span></a> </li>
+                        <li> <a href="javascript:void(0)" class="waves-effect"><i data-icon="&#xe008;" class="linea-icon linea-basic fa-fw"></i><span class="hide-menu">Third Level </span><span class="fa arrow"></span></a>
                             <ul class="nav nav-third-level">
-                                <li><a href="javascript:void(0)"><i class=" fa-fw">U</i><span class="hide-menu">Użytkownicy</span></a></li>
-                                <li><a href="javascript:void(0)"><i class=" fa-fw">G</i><span class="hide-menu">Grupy</span></a></li>
+                                <li> <a href="javascript:void(0)"><i class=" fa-fw">T</i><span class="hide-menu">Third Level Item</span></a> </li>
+                                <li> <a href="javascript:void(0)"><i class=" fa-fw">M</i><span class="hide-menu">Third Level Item</span></a> </li>
+                                <li> <a href="javascript:void(0)"><i class=" fa-fw">R</i><span class="hide-menu">Third Level Item</span></a> </li>
+                                <li> <a href="javascript:void(0)"><i class=" fa-fw">G</i><span class="hide-menu">Third Level Item</span></a> </li>
                             </ul>
                         </li>
                     </ul>
@@ -165,58 +206,10 @@
     <!-- Page Content -->
     <div id="page-wrapper" style="">
         <div class="container-fluid" style="padding-right: 0; margin-right: 0;" >
-            <div class="col-md-10" style="position: relative;">
+            <div class="col-md-9 col-lg-9" style="position: relative;">
                 @yield('content')
             </div>
-            <div class="col-md-2" style="padding-right: 0; margin-right: 0; max-height: 100%;" id="rightSidebar">
-                <div class="panel panel-themecolor">
-                    <div class="panel-body  user-activity">
-                        <div class="steamline">
-                            <div class="sl-item">
-                                <div class="sl-left bg-success"> <i class="ti-user"></i></div>
-                                <div class="sl-right">
-                                    <div><a href="#">Tohnathan Doe</a> <span class="sl-date">5 minutes ago</span></div>
-                                    <div class="desc">Contrary to popular belief</div>
-                                </div>
-                            </div>
-                            <div class="sl-item">
-                                <div class="sl-left bg-info"><i class="fa fa-image"></i></div>
-                                <div class="sl-right">
-                                    <div><a href="#">Hritik Roshan</a> <span class="sl-date">5 minutes ago</span></div>
-                                    <div class="desc">Lorem Ipsum is simply dummy</div>
-                                    <div class="row inline-photos">
-                                        <div class="col-xs-4"><img class="img-responsive" alt="user" src="/public/plugins/images/small/vd1.jpg"></div>
-                                        <div class="col-xs-4"><img class="img-responsive" alt="user" src="/public/plugins/images/small/vd2.jpg"></div>
-                                        <div class="col-xs-4"><img class="img-responsive" alt="user" src="/public/plugins/images/small/vd3.jpg"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="sl-item">
-                                <div class="sl-left"> <img class="img-circle" alt="user" src="/public/plugins/images/users/sonu.jpg"> </div>
-                                <div class="sl-right">
-                                    <div><a href="#">Gohn Doe</a> <span class="sl-date">5 minutes ago</span></div>
-                                    <div class="desc">The standard chunk of ipsum </div>
-                                </div>
-                            </div>
-                            <div class="sl-item">
-                                <div class="sl-left"> <img class="img-circle" alt="user" src="/public/plugins/images/users/ritesh.jpg"> </div>
-                                <div class="sl-right">
-                                    <div><a href="#">Varun Dhavan</a> <span class="sl-date">5 minutes ago</span></div>
-                                    <div class="desc">Contrary to popular belief</div>
-                                </div>
-                            </div>
-                            <div class="sl-item">
-                                <div class="sl-left"> <img class="img-circle" alt="user" src="/public/plugins/images/users/govinda.jpg"> </div>
-                                <div class="sl-right">
-                                    <div><a href="#">Tiger Sroff</a> <span class="sl-date">5 minutes ago</span></div>
-                                    <div class="desc">The generated lorem ipsum
-                                        <br><a href="javascript:void(0)" class="btn m-t-10 m-r-5 btn-rounded btn-outline btn-success">Apporve</a> <a href="javascript:void(0)" class="btn m-t-10 btn-rounded btn-outline btn-danger">Refuse</a> </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+            <div class="col-md-3 col-lg-3" id="rightSidebar">
                 <div class="sk-chat-widgets">
                     <div class="panel panel-themecolor" style="height: 100%; border-top:1px solid rgba(120, 130, 140, 0.13);">
                         <div class="panel-body contacts">
@@ -256,13 +249,13 @@
 <!--Slimscroll JavaScript For custom scroll-->
 <script src="{{base_url('public/js/jquery.slimscroll.js')}}"></script>
 <script src="{{base_url('public/js/moment-with-locales.js')}}"></script>
+
 <!--Wave Effects -->
 <script src="{{base_url('public/js/waves.js')}}"></script>
 <!-- Custom Theme JavaScript -->
 <script src="{{base_url('public/js/custom.js')}}"></script>
+<script src="{{base_url('public/js/chat.js')}}"></script>
 <script src="{{base_url('public/js/app.js')}}"></script>
-
-@yield('bscript')
 
 </body>
 

@@ -167,32 +167,10 @@ $('.visited li a').click(function (e) {
     }
     e.preventDefault();
 });
-// Login and recover password form login
+// Login and recover password
 $('#to-recover').click(function () {
     $("#loginform").slideUp();
     $("#recoverform").fadeIn();
-});
-// Login and register form login
-$('#to-register').click(function () {
-    $("#loginform").slideUp();
-    $("#registerform").fadeIn();
-});
-// Login and register from register
-$('#to-login-from-register').click(function () {
-    $("#registerform").slideUp();
-    $("#loginform").fadeIn();
-});
-// Login and register from register
-$('#to-login-from-recover').click(function () {
-    $("#recoverform").slideUp();
-    $("#loginform").fadeIn();
-});
-// Page event-list-games show more game
-$('.le-games-more').click(function () {
-    var x = $(this).attr("id").split("-")
-    $("#event-" + x[1] + " .list-event.games .more").slideUp();
-    $("#event-" + x[1] + " .list-event.games li").removeClass("none");
-
 });
 // Update 1.5
 // this is for close icon when navigation open in mobile view

@@ -964,7 +964,7 @@ class Ion_auth_model extends CI_Model
 	 * @return bool
 	 * @author Mathew
 	 **/
-	public function login($identity, $password, $remember=FALSE)
+	public function login($identity, $password, $remember=FALSE, $facebook = FALSE)
 	{
 		$this->trigger_events('pre_login');
 
@@ -976,7 +976,7 @@ class Ion_auth_model extends CI_Model
 
 		$this->trigger_events('extra_where');
 
-		$query = $this->db->select($this->identity_column . ', email, id, password, active, last_login,bio,photo')
+		$query = $this->db->select($this->identity_column . ',username, email, id, password, active, last_login,bio,photo')
 		                  ->where($this->identity_column, $identity)
 		                  ->limit(1)
 		    			  ->order_by('id', 'desc')
@@ -999,7 +999,7 @@ class Ion_auth_model extends CI_Model
 
 			$password = $this->hash_password_db($user->id, $password);
 
-			if ($password === TRUE)
+			if ($password === TRUE || $facebook === TRUE)
 			{
 				if ($user->active == 0)
 				{
@@ -1789,12 +1789,12 @@ class Ion_auth_model extends CI_Model
 	 **/
 	public function set_session($user)
 	{
-
 		$this->trigger_events('pre_set_session');
 
 		$session_data = array(
 		    'identity'             => $user->{$this->identity_column},
 		    $this->identity_column             => $user->{$this->identity_column},
+				'username'						=> $user->username,
 		    'email'                => $user->email,
 		    'user_id'              => $user->id, //everyone likes to overwrite id so we'll use user_id
 		    'old_last_login'       => $user->last_login,
@@ -1885,7 +1885,7 @@ class Ion_auth_model extends CI_Model
 
 		// get the user
 		$this->trigger_events('extra_where');
-		$query = $this->db->select($this->identity_column.', id, email, last_login')
+		$query = $this->db->select($this->identity_column.', id, email, last_login, username')
 		                  ->where($this->identity_column, urldecode(get_cookie($this->config->item('identity_cookie_name', 'ion_auth'))))
 		                  ->where('remember_code', get_cookie($this->config->item('remember_cookie_name', 'ion_auth')))
 		                  ->limit(1)
