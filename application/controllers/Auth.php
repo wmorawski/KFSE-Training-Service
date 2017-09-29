@@ -21,6 +21,7 @@ class Auth extends CI_Controller {
 	// redirect if needed, otherwise display the user list
 	public function index()
 	{
+
 		if (!$this->ion_auth->logged_in())
 		{
 			// redirect them to the login page
@@ -54,6 +55,7 @@ class Auth extends CI_Controller {
 			redirect('','refresh');
 		} else {
 			# code...
+
 
 		$this->data['title'] = $this->lang->line('login_heading');
 
@@ -801,6 +803,7 @@ class Auth extends CI_Controller {
 
 	public function _render_page($view, $data=null, $returnhtml=false)//I think this makes more sense
 	{
+
 		$this->viewdata = (empty($data)) ? $this->data: $data;
 
 		$view_html = $this->load->view($view, $this->viewdata, $returnhtml);
